@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <Script strategy='afterInteractive'>
+      <Script id='hotjarScript' strategy='afterInteractive'>
         {(function (h, o, t, j, a, r) {
           h.hj =
             h.hj ||
