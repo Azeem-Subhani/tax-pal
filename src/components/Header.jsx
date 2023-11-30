@@ -1,6 +1,5 @@
 'use client'
-
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import Link from 'next/link'
 import { Popover, Transition } from '@headlessui/react'
 import clsx from 'clsx'
@@ -9,6 +8,7 @@ import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { NavLink } from '@/components/NavLink'
+import { hotjar } from 'react-hotjar';
 
 function MobileNavLink({ href, children }) {
   return (
@@ -90,8 +90,18 @@ function MobileNavigation() {
     </Popover>
   )
 }
-
 export function Header() {
+  useEffect(() => {
+    hotjar.initialize(3765283, 6);
+  },[]);
+  function triggerHotjarEvent() {
+    console.log("Entering Function");
+    console.log(hotjar.initialized());
+    if (hotjar.initialized()) {
+      hotjar.identify('USER_ID', { userProperty: 'value' });
+      console.log("Firing Hotjar Event");
+    }
+  }
   return (
     <header className="py-10">
       <Container>
@@ -111,7 +121,7 @@ export function Header() {
               <NavLink href="/login">Sign in</NavLink>
             </div>
             <Button href="/register" color="blue">
-              <span>
+              <span onClick={triggerHotjarEvent}>
                 Get started <span className="hidden lg:inline">today</span>
               </span>
             </Button>
